@@ -5,12 +5,12 @@ type Author = {
   profile_icon: string;
 };
 
-type Book = {
+type BookType = {
   id: number;
   author: Author;
   title: string;
   content: string;
-  thumbnail: string;
+  thumbnailUrl: string;
   created_at: string;
   updated_at: string;
 };
@@ -27,4 +27,4 @@ type FormData = {
   password: string;
 };
 
-export type { Author, Book, User };
+export type { Author, BookType, User };

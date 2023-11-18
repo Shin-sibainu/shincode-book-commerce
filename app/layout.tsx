@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
-// import { UserProvider } from "./context/UserContext";
-// import { SessionProvider } from "next-auth/react";
+import CreateBookButton from "./components/CreateBookButton";
+import { NextAuthProvider } from "./lib/next-auth/provider";
 
 const notoSansJP = Noto_Sans_JP({ weight: "400", subsets: ["latin"] });
 
@@ -20,10 +20,11 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={notoSansJP.className}>
-        {/* <UserProvider> */}
-        <Header />
-        {children}
-        {/* </UserProvider> */}
+        <NextAuthProvider>
+          <Header />
+          {children}
+          <CreateBookButton />
+        </NextAuthProvider>
       </body>
     </html>
   );

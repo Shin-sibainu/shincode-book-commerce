@@ -1,19 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
-import { Book } from "../types/types";
+import React, { memo, useState } from "react";
+import { BookType } from "../types/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type BookProps = {
-  book: Book;
+  book: BookType;
 };
 
-const Book = ({ book }: BookProps) => {
+// eslint-disable-next-line react/display-name
+const Book = memo(({ book }: BookProps) => {
   const [isPurchase, setIsPurchase] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  let user: boolean = false; //dummy
+  console.log(book.thumbnailUrl);
+
+  const { data: session } = useSession();
+  const user = session?.user;
+  // console.log(user);
 
   const router = useRouter();
 
@@ -56,10 +62,14 @@ const Book = ({ book }: BookProps) => {
       `}</style>
 
       <div className="flex flex-col items-center m-4">
-        <a onClick={handlePurchaseClick} className="cursor-pointer shadow-lg">
+        <a
+          onClick={handlePurchaseClick}
+          className="cursor-pointer shadow-2xl duration-300 hover:translate-y-1 hover:shadow-none"
+        >
           <Image
             priority
-            src={book.thumbnail}
+            // src={book.thumbnailUrl}
+            src={""}
             alt={book.title}
             width={450}
             height={350}
@@ -68,6 +78,7 @@ const Book = ({ book }: BookProps) => {
           <div className="px-4 py-4 bg-slate-100 rounded-b-md">
             <h2 className="text-lg font-semibold">{book.title}</h2>
             <p className="mt-2 text-lg text-slate-600">この本は○○...</p>
+            <p className="mt-2 text-md text-slate-700">値段：1000円</p>
           </div>
         </a>
         {showModal && (
@@ -92,6 +103,6 @@ const Book = ({ book }: BookProps) => {
       </div>
     </>
   );
-};
+});
 
 export default Book;
