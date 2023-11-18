@@ -9,6 +9,7 @@ type BookType = {
   id: number;
   author: Author;
   title: string;
+  price: number;
   content: string;
   thumbnailUrl: string;
   created_at: string;

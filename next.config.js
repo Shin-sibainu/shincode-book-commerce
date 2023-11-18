@@ -8,7 +8,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "ql3cigfivm9i6prq.public.blob.vercel-storage.com",
+        hostname: "book-thumbnail-bucket.s3.ap-northeast-1.amazonaws.com",
       },
     ],
   },
