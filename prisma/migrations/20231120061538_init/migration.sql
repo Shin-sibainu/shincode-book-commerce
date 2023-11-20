@@ -38,16 +38,13 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "Book" (
+CREATE TABLE "Purchase" (
     "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "price" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
+    "bookId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "authorId" TEXT NOT NULL,
-    "thumbnailUrl" TEXT,
-    "content" TEXT NOT NULL,
 
-    CONSTRAINT "Book_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Purchase_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -79,4 +76,4 @@ ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Book" ADD CONSTRAINT "Book_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Purchase" ADD CONSTRAINT "Purchase_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -36,26 +36,35 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  books         Book[]
+  purchases     Purchase[]    // 購入履歴へのリレーション
   sessions      Session[]
 }
 
-model Book {
-  id          String   @id @default(cuid())
-  title       String   // 本のタイトル
-  price       Int      // 本の価格（セント単位）
-  createdAt   DateTime @default(now()) // 作成日
-  authorId    String   // 本を書いたユーザーのID
-  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade) // Userモデルへのリレーション
-  thumbnailUrl String? // 本のサムネイルのURL（オプショナル）
-  content     String   // 本の本文
+model Purchase {
+  id        String   @id @default(cuid())
+  userId    String   // 購入したユーザーのID
+  bookId    String   // 購入した本のID (MicroCMSのID)
+  createdAt DateTime @default(now()) // 購入日時
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Userモデルへのリレーション
 }
+
+
+// model Book {
+//   id          String   @id @default(cuid())
+//   title       String   // 本のタイトル
+//   price       Int      // 本の価格（セント単位）
+//   createdAt   DateTime @default(now()) // 作成日
+//   authorId    String   // 本を書いたユーザーのID
+//   author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade) // Userモデルへのリレーション
+//   thumbnailUrl String? // 本のサムネイルのURL（オプショナル）
+//   content     String   // 本の本文
+// }
 
 model VerificationToken {
   identifier String
