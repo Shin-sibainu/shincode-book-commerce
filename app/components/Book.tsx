@@ -14,8 +14,10 @@ type BookProps = {
 
 // eslint-disable-next-line react/display-name
 const Book = memo(({ book }: BookProps) => {
-  const [isPurchase, setIsPurchase] = useState(false);
+  // const [isPurchase, setIsPurchase] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  // console.log(book.title);
 
   const { data: session } = useSession();
   const user = session?.user;
@@ -29,9 +31,7 @@ const Book = memo(({ book }: BookProps) => {
         `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             bookId,
             title: book.title,
@@ -39,35 +39,38 @@ const Book = memo(({ book }: BookProps) => {
           }),
         }
       );
-      const { sessionId } = await response.json();
-      const stripe = new Stripe(
-        "pk_test_51KQ7GjCvcMsmFaWcvieviEL93w1AJtC0mSVfOJ92ZNclppB0iY9Ua9qgIRK5NJp6iWszCNcEoD0cbrWGvQdozGEA00c6aNnkKs"
-      );
-      // await stripe.redirectToCheckout({ sessionId });
+
+      const responseData = await response.json();
+
+      if (responseData && responseData.checkout_url) {
+        router.push(responseData.checkout_url);
+      } else {
+        console.error("Invalid response data:", responseData);
+        // 適切なエラーハンドリングを実装
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Error in startCheckout:", err);
+      // エラー時の処理
     }
   };
 
-  // const handlePurchaseClick = () => {
-  //   setShowModal(true);
-  // };
+  const handlePurchaseClick = () => {
+    setShowModal(true);
+  };
 
   const handlePurchaseConfirm = () => {
-    // モーダルで購入を確定したら、本の詳細ページに遷移
     if (!user) {
       setShowModal(false); // モーダルを閉じる
       router.push("/login");
     } else {
       //Stripe購入画面へ。購入済みならそのまま本ページへ。
       startCheckout(book.id);
-      // router.push(`/book/${book.id}`);
     }
   };
 
-  // const handleCancel = () => {
-  //   setShowModal(false);
-  // };
+  const handleCancel = () => {
+    setShowModal(false);
+  };
 
   return (
     <>
@@ -90,13 +93,13 @@ const Book = memo(({ book }: BookProps) => {
 
       <div className="flex flex-col items-center m-4">
         <a
-          // onClick={handlePurchaseClick}
+          onClick={handlePurchaseClick}
           className="cursor-pointer shadow-2xl duration-300 hover:translate-y-1 hover:shadow-none"
         >
           <Image
             priority
             // src={book.thumbnailUrl}
-            src={book.thumbnailUrl}
+            src={book.thumbnail.url}
             alt={book.title}
             width={450}
             height={350}
@@ -108,7 +111,7 @@ const Book = memo(({ book }: BookProps) => {
             <p className="mt-2 text-md text-slate-700">値段：{book.price}円</p>
           </div>
         </a>
-        {/* {showModal && (
+        {showModal && (
           <div className="absolute top-0 left-0 right-0 bottom-0 bg-slate-900 bg-opacity-50 flex justify-center items-center modal">
             <div className="bg-white p-8 rounded-lg">
               <h3 className="text-xl mb-4">本を購入しますか？</h3>
@@ -126,7 +129,7 @@ const Book = memo(({ book }: BookProps) => {
               </button>
             </div>
           </div>
-        )} */}
+        )}
       </div>
     </>
   );

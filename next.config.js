@@ -10,6 +10,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "book-thumbnail-bucket.s3.ap-northeast-1.amazonaws.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.microcms-assets.io",
+      },
+      {
+        protocol: "https",
+        hostname: "images.microcms-assets.io",
+      },
     ],
   },
 };

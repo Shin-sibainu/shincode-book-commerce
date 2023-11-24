@@ -1,8 +1,9 @@
-"use client";
+// "use client";
 
-import { useEffect, useState } from "react";
+import { cache, useEffect, useState } from "react";
 import Book from "./components/Book";
 import { BookType } from "./types/types";
+import { getAllBooks } from "./lib/microcms/client";
 // import { headers } from "next/headers";
 
 //https://zenn.dev/arsaga/articles/3f5bce7c904ebe#%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E6%83%85%E5%A0%B1
@@ -55,28 +56,16 @@ import { BookType } from "./types/types";
 // ];
 
 // eslint-disable-next-line @next/next/no-async-client-component
-export default function Home() {
-  const [books, setBooks] = useState<BookType[]>([]);
+export default async function Home() {
+  const { contents } = await getAllBooks();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/book`, {
-        method: "GET",
-      });
-      const allBooks = await response.json();
-      // console.log(allBooks);
-      setBooks(allBooks);
-    };
-
-    fetchData();
-  }, []);
   return (
     <>
       <main className="flex flex-wrap justify-center items-center md:mt-20 mt-20">
         <h2 className="text-center w-full font-bold text-3xl mb-2">
           Book Commerce
         </h2>
-        {books.map((book) => (
+        {contents.map((book: BookType) => (
           <Book key={book.id} book={book} />
         ))}
       </main>

@@ -11,7 +11,7 @@ type BookType = {
   title: string;
   price: number;
   content: string;
-  thumbnailUrl: string;
+  thumbnail: { url: string };
   created_at: string;
   updated_at: string;
 };
