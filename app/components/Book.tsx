@@ -20,7 +20,7 @@ const Book = memo(({ book }: BookProps) => {
   // console.log(book.title);
 
   const { data: session } = useSession();
-  const user = session?.user;
+  const user: any = session?.user;
 
   const router = useRouter();
 
@@ -36,6 +36,7 @@ const Book = memo(({ book }: BookProps) => {
             bookId,
             title: book.title,
             price: book.price,
+            userId: user?.id,
           }),
         }
       );
@@ -43,10 +44,12 @@ const Book = memo(({ book }: BookProps) => {
       const responseData = await response.json();
 
       if (responseData && responseData.checkout_url) {
+        sessionStorage.setItem("stripeSessionId", responseData.session_id);
+
+        //チェックアウト後のURL遷移先
         router.push(responseData.checkout_url);
       } else {
         console.error("Invalid response data:", responseData);
-        // 適切なエラーハンドリングを実装
       }
     } catch (err) {
       console.error("Error in startCheckout:", err);
