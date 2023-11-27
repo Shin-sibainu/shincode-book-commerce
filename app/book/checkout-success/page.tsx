@@ -14,7 +14,7 @@ const PurchaseSuccess = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (sessionId) {
-        // console.log(sessionId);
+        console.log(sessionId);
         try {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/checkout/success`,
@@ -34,7 +34,7 @@ const PurchaseSuccess = () => {
     };
 
     fetchData();
-  }, [sessionId]);
+  }, []);
 
   return (
     <div className="flex items-center justify-center bg-gray-100 mt-20">
@@ -50,7 +50,7 @@ const PurchaseSuccess = () => {
             href={`/book/${bookUrl}`}
             className="text-indigo-600 hover:text-indigo-800 transition duration-300"
           >
-            ホームページへ戻る
+            購入した記事を読む
           </Link>
         </div>
       </div>
