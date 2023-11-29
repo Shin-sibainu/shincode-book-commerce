@@ -1,27 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { BookType } from "../types/types";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import Stripe from "stripe";
 
 type BookProps = {
   book: BookType;
+  user: any;
+  isPurchased: boolean;
 };
 
 // eslint-disable-next-line react/display-name
-const Book = memo(({ book }: BookProps) => {
-  // const [isPurchase, setIsPurchase] = useState(false);
+const Book = memo(({ book, user, isPurchased }: BookProps) => {
   const [showModal, setShowModal] = useState(false);
-
-  // console.log(book.title);
-
-  const { data: session } = useSession();
-  const user: any = session?.user;
-
   const router = useRouter();
 
   //stripe checkout
@@ -58,7 +51,13 @@ const Book = memo(({ book }: BookProps) => {
   };
 
   const handlePurchaseClick = () => {
-    setShowModal(true);
+    if (!isPurchased) {
+      setShowModal(true);
+    } else {
+      // ここで既に購入済みであることをユーザーに通知する処理を追加できます。
+      // 例: アラートを表示する、またはUI上でメッセージを表示する。
+      alert("その商品は購入済みです。");
+    }
   };
 
   const handlePurchaseConfirm = () => {

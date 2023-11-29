@@ -16,4 +16,11 @@ type Purchase = {
   createdAt: string;
 };
 
-export type { BookType, Purchase };
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  image: string;
+};
+
+export type { BookType, Purchase, User };

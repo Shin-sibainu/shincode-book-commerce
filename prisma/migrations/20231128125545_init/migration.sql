@@ -42,7 +42,6 @@ CREATE TABLE "Purchase" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "bookId" TEXT NOT NULL,
-    "sessionId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Purchase_pkey" PRIMARY KEY ("id")
@@ -63,12 +62,6 @@ CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Purchase_sessionId_key" ON "Purchase"("sessionId");
-
--- CreateIndex
-CREATE INDEX "Purchase_sessionId_idx" ON "Purchase"("sessionId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token");

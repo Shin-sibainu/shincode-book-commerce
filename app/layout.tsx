@@ -3,6 +3,8 @@ import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
 import { NextAuthProvider } from "./lib/next-auth/provider";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const notoSansJP = Noto_Sans_JP({ weight: "400", subsets: ["latin"] });
 
@@ -21,7 +23,7 @@ export default function RootLayout({
       <body className={notoSansJP.className}>
         <NextAuthProvider>
           <Header />
-          {children}
+          <Suspense fallback={<Loading />}>{children}</Suspense>
           {/* <CreateBookButton /> */}
         </NextAuthProvider>
       </body>

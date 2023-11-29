@@ -118,11 +118,8 @@ model Purchase {
   id        String   @id @default(cuid())
   userId    String
   bookId    String
-  sessionId String   @unique
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([sessionId])
 }
 
 

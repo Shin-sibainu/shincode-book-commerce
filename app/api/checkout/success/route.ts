@@ -14,9 +14,10 @@ export async function POST(request: Request, response: Response) {
     // console.log(session.metadata?.bookId); //{}
     // console.log(session.client_reference_id!);
 
-    const existingPurchase = await prisma.purchase.findUnique({
+    const existingPurchase = await prisma.purchase.findFirst({
       where: {
-        sessionId: sessionId,
+        userId: session.client_reference_id!,
+        bookId: session.metadata?.bookId!,
       },
     });
 
@@ -26,7 +27,6 @@ export async function POST(request: Request, response: Response) {
         data: {
           userId: session.client_reference_id!,
           bookId: session.metadata?.bookId!,
-          sessionId: sessionId,
         },
       });
       return NextResponse.json({ purchase });

@@ -1,40 +1,33 @@
-"use client";
+// "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import PurchaseProduct from "../components/PurchaseProduct";
 import { getDetailBook } from "../lib/microcms/client";
-import { BookType, Purchase } from "../types/types";
+import { BookType, Purchase, User } from "../types/types";
+import Loading from "../loading";
+import { getServerSession } from "next-auth";
+import { nextAuthOptions } from "../lib/next-auth/options";
 
-export default function ProfilePage() {
-  const [detailBooks, setDetailBooks] = useState<BookType[]>([]);
+export default async function ProfilePage() {
+  // const [detailBooks, setDetailBooks] = useState<BookType[]>([]);
 
   // 以下、カード情報追加のための関数などの追加
-  const { data: session } = useSession();
+  const session = await getServerSession(nextAuthOptions);
   const user: any = session?.user;
-  // console.log(user?.id);
 
-  useEffect(() => {
-    const fetchPurchases = async () => {
-      if (user) {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`
-        );
-        const data = await response.json();
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`
+  );
+  const data = await response.json();
 
-        // 各購入履歴に対してmicroCMSから詳細情報を取得
-        const bookDetails = await Promise.all(
-          data.map(async (purchase: Purchase) => {
-            return getDetailBook(purchase.bookId);
-          })
-        );
-        setDetailBooks(bookDetails);
-      }
-    };
-
-    fetchPurchases();
-  }, [user]);
+  // 各購入履歴に対してmicroCMSから詳細情報を取得
+  const detailBooks = await Promise.all(
+    data.map(async (purchase: Purchase) => {
+      return getDetailBook(purchase.bookId);
+    })
+  );
 
   return (
     <div className="container mx-auto p-4">
