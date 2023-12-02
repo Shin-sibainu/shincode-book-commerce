@@ -1,12 +1,11 @@
-"use client";
-
-import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { getServerSession } from "next-auth";
+import { nextAuthOptions } from "../lib/next-auth/options";
 
-const Header = () => {
-  const { data: session } = useSession();
+const Header = async () => {
+  const session = await getServerSession(nextAuthOptions);
   const user = session?.user;
 
   return (
@@ -23,22 +22,18 @@ const Header = () => {
             ホーム
           </Link>
           <Link
-            href={user ? "/profile" : "/login"}
+            href={user ? "/profile" : "/api/auth/signin"}
             className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
           >
             {user ? "プロフィール" : "ログイン"}
           </Link>
           {user ? (
-            <button
-              onClick={() =>
-                signOut({
-                  callbackUrl: "/login",
-                })
-              }
+            <Link
+              href={"/api/auth/signout?callbackUrl=/"}
               className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
             >
               ログアウト
-            </button>
+            </Link>
           ) : (
             ""
           )}

@@ -1,12 +1,12 @@
 import Book from "./components/Book";
 import { BookType, Purchase } from "./types/types";
 import { getAllBooks } from "./lib/microcms/client";
-import { useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "./lib/next-auth/options";
+// import { getServerSession } from "next-auth";
+// import { nextAuthOptions } from "./lib/next-auth/options";
 
 //https://zenn.dev/arsaga/articles/3f5bce7c904ebe#%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E6%83%85%E5%A0%B1
-
 // 疑似データ
 // const books = [
 //   {
@@ -53,15 +53,13 @@ import { nextAuthOptions } from "./lib/next-auth/options";
 //   },
 //   // 他の本のデータ...
 // ];
-
-// eslint-disable-next-line @next/next/no-async-client-component
 export default async function Home() {
   // const [books, setBooks] = useState<BookType[]>([]);
   // const [purchasedBookIds, setPurchasedBookIds] = useState<number[]>([]);
 
   const session = await getServerSession(nextAuthOptions);
   const user: any = session?.user;
-  // console.log(session);
+  console.log(user);
 
   const { contents } = await getAllBooks();
   const response = await fetch(
