@@ -21,11 +21,14 @@ export default async function ProfilePage() {
     `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`
   );
   const data = await response.json();
+  console.log(
+    await Promise.all(data.map((single: any) => console.log(single.bookId)))
+  );
 
-  // 各購入履歴に対してmicroCMSから詳細情報を取得
+  // // 各購入履歴に対してmicroCMSから詳細情報を取得
   const detailBooks = await Promise.all(
     data.map(async (purchase: Purchase) => {
-      return getDetailBook(purchase.bookId);
+      // return await getDetailBook(purchase.bookId);
     })
   );
 
@@ -49,9 +52,9 @@ export default async function ProfilePage() {
 
       <span className="font-medium text-lg mb-4 mt-4 block">購入した記事</span>
       <div className="flex items-center gap-6">
-        {detailBooks.map((detailBook: BookType) => (
+        {/* {detailBooks.map((detailBook: BookType) => (
           <PurchaseProduct key={detailBook.id} detailBook={detailBook} />
-        ))}
+        ))} */}
       </div>
     </div>
   );
