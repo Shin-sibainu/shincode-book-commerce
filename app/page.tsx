@@ -3,6 +3,8 @@ import { BookType, Purchase } from "./types/types";
 import { getAllBooks } from "./lib/microcms/client";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "./lib/next-auth/options";
+import { Suspense } from "react";
+import Loading from "./loading";
 // import { getServerSession } from "next-auth";
 // import { nextAuthOptions } from "./lib/next-auth/options";
 
@@ -59,7 +61,6 @@ export default async function Home() {
 
   const session = await getServerSession(nextAuthOptions);
   const user: any = session?.user;
-  console.log(user);
 
   const { contents } = await getAllBooks();
   const response = await fetch(
@@ -104,14 +105,14 @@ export default async function Home() {
         <h2 className="text-center w-full font-bold text-3xl mb-2">
           Book Commerce
         </h2>
-        {contents.map((book: BookType) => (
-          <Book
-            key={book.id}
-            book={book}
-            user={user}
-            isPurchased={purchasedIds.includes(book.id)}
-          />
-        ))}
+          {contents.map((book: BookType) => (
+            <Book
+              key={book.id}
+              book={book}
+              user={user}
+              isPurchased={purchasedIds.includes(book.id)}
+            />
+          ))}
       </main>
     </>
   );

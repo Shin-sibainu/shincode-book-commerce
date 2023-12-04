@@ -8,7 +8,7 @@ export const client = createClient({
 
 export const getAllBooks = async () => {
   const allBooks = await client.get({
-    endpoint: "ebook",
+    endpoint: "bookcommerce",
     queries: {
       offset: 0,
       limit: 10,
@@ -18,14 +18,10 @@ export const getAllBooks = async () => {
   return allBooks;
 };
 
-export const getDetailBook = async (
-  contentId: string,
-  queries?: MicroCMSQueries
-) => {
+export const getDetailBook = async (contentId: string) => {
   const detailBook = await client.getListDetail<BookType>({
-    endpoint: "ebook",
+    endpoint: "bookcommerce",
     contentId,
-    queries,
   });
 
   return detailBook;

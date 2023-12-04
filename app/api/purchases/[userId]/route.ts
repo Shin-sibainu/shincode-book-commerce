@@ -12,7 +12,7 @@ export async function GET(
     const purchase = await prisma.purchase.findMany({
       where: { userId: userId },
     });
-    // console.log(purchase);
+    console.log(purchase);
 
     return NextResponse.json(purchase);
   } catch (err) {

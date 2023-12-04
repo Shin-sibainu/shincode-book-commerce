@@ -23,8 +23,10 @@ export default function RootLayout({
       <body className={notoSansJP.className}>
         <NextAuthProvider>
           <Header />
-          <Suspense fallback={<Loading />}>{children}</Suspense>
-          {/* <CreateBookButton /> */}
+          <Suspense fallback={<Loading />}>
+            {children}
+            {/* <CreateBookButton /> */}
+          </Suspense>
         </NextAuthProvider>
       </body>
     </html>
