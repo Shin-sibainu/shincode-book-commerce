@@ -1,14 +1,13 @@
 // "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import React from "react";
 import Image from "next/image";
-import PurchaseProduct from "../components/PurchaseProduct";
-import { getDetailBook } from "../lib/microcms/client";
-import { BookType, Purchase, User } from "../types/types";
-import Loading from "../loading";
+import PurchaseProduct from "@/app/components/PurchaseProduct";
+import { getDetailBook } from "@/app/lib/microcms/client";
+import { BookType, Purchase } from "@/app/types/types"
+
 import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../lib/next-auth/options";
+import { nextAuthOptions } from "@/app/lib/next-auth/options";
 
 export default async function ProfilePage() {
   // const [detailBooks, setDetailBooks] = useState<BookType[]>([]);
