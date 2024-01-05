@@ -1,10 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import React, { memo, useEffect, useState } from "react";
-import { BookType } from "../types/types";
+import React, { memo, useState } from "react";
+import { BookType } from "@/app/types/types";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 type BookProps = {
   book: BookType;
