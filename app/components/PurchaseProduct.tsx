@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
-import { BookType } from "../types/types";
+import { BookType } from "@/app/types/types";
 import Image from "next/image";
 
 type detailBookProps = {

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../lib/next-auth/options";
+import { nextAuthOptions } from "@/app/lib/next-auth/options";
 
 const Header = async () => {
   const session = await getServerSession(nextAuthOptions);
